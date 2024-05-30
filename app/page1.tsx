@@ -2,29 +2,21 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
-const webSocket = new WebSocket('ws://localhost:3001/');
+const socket = io('http://localhost:3000'); // Replace with your server URL
 
 const Index = () => {
-  
   const [messages, setMessages] = useState<string[]>([]);
   const [newMessage, setNewMessage] = useState('');
 
   useEffect(() => {
     // Listen for incoming messages
-    // socket.on('chat message', (message) => {
-    //   setMessages((prevMessages) => [...prevMessages, message]);
-    // });
-    webSocket.onmessage = (event) => {
-      console.log(event)
-      setMessages((prevMessages) => [...prevMessages, event.data]);
-      // document.getElementById('messages').innerHTML += 
-      //   'Message from server: ' + event.data + "<br />";
-    };
+    socket.on('chat message', (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
   }, []);
 
   const sendMessage = () => {
-    webSocket.send(newMessage);
-    // socket.emit('chat message', newMessage);
+    socket.emit('chat message', newMessage);
     setNewMessage('');
   };
 
