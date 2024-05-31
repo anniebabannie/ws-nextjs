@@ -1,6 +1,5 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
 
 const webSocket = new WebSocket('ws://localhost:3001/');
 
@@ -10,21 +9,15 @@ const Index = () => {
   const [newMessage, setNewMessage] = useState('');
 
   useEffect(() => {
-    // Listen for incoming messages
-    // socket.on('chat message', (message) => {
-    //   setMessages((prevMessages) => [...prevMessages, message]);
-    // });
     webSocket.onmessage = (event) => {
       console.log(event)
+      if (event.data === "connection established") return;
       setMessages((prevMessages) => [...prevMessages, event.data]);
-      // document.getElementById('messages').innerHTML += 
-      //   'Message from server: ' + event.data + "<br />";
     };
   }, []);
 
   const sendMessage = () => {
     webSocket.send(newMessage);
-    // socket.emit('chat message', newMessage);
     setNewMessage('');
   };
 
