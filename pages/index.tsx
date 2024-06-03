@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 
-const webSocket = new WebSocket('ws://localhost:3001/');
+const webSocket = new WebSocket('ws://localhost:3000/');
 
 const Index = () => {
   
